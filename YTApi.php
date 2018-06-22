@@ -1,16 +1,3 @@
-
- 	
-PHP Beautifier
-Beautify and format your PHP code
- 
-Here is your PHP code :
- 	
- Source
- 
-See as Text 	
-
-<?php
-error_reporting(0);
 class YouTubeAPI
 
 	{
