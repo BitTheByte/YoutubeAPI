@@ -1,28 +1,43 @@
-<?php 
 
+ 	
+PHP Beautifier
+Beautify and format your PHP code
+ 
+Here is your PHP code :
+ 	
+ Source
+ 
+See as Text 	
+
+<?php
 error_reporting(0);
+class YouTubeAPI
 
-class YouTubeAPI{
-
+	{
 	private $ch;
 	private $cookies;
-	private  $state;
-	function state(){
+	private $state;
+	function state()
+		{
 		return $this->state;
-	}
-	function __construct($email,$password)
-	{
-		$this->ch = curl_init();
-		$this->cookies = tempnam("tmp", "cookies.txt");
-		curl_setopt($this->ch, CURLOPT_COOKIEJAR,  $this->cookies);
-		curl_setopt($this->ch, CURLOPT_COOKIEFILE, $this->cookies);
-		$this->state = $this->Glogin($this->G_identifier($email),$password);
-		if ($this->state != "STOP_CODE"){
-			$this->YTlogin();
 		}
 
-	}
-	private function G_identifier($email){
+	function __construct($email, $password)
+		{
+		$this->ch = curl_init();
+		$this->cookies = tempnam("tmp", "cookies.txt");
+		curl_setopt($this->ch, CURLOPT_COOKIEJAR, $this->cookies);
+		curl_setopt($this->ch, CURLOPT_COOKIEFILE, $this->cookies);
+		$this->state = $this->Glogin($this->G_identifier($email) , $password);
+		if ($this->state != "STOP_CODE")
+			{
+			$this->YTlogin();
+			}
+		}
+
+	private
+	function G_identifier($email)
+		{
 		curl_setopt($this->ch, CURLOPT_URL, "https://accounts.google.com/_/signin/sl/lookup?hl=en&_reqid=53136&rt=j");
 		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($this->ch, CURLOPT_POSTFIELDS, "continue=https%3A%2F%2Fwww.google.com%2F&hl=en&f.req=%5B%22$email%22%2C%22%22%2C%5B%5D%2Cnull%2C%22EG%22%2Cnull%2Cnull%2C2%2Cfalse%2Ctrue%2C%5Bnull%2Cnull%2C%5B2%2C1%2Cnull%2C1%2C%22https%3A%2F%2Faccounts.google.com%2FAddSession%3Fhl%3Den%26continue%3Dhttps%253A%252F%252Fwww.google.com%252F%22%2Cnull%2C%5B%5D%2C4%2C%5B%5D%2C%22GlifWebSignIn%22%5D%2C1%2C%5Bnull%2Cnull%2C%5B%5D%5D%2Cnull%2Cnull%2Cnull%2Ctrue%5D%2C%22$email%22%5D&bgRequest=%5B%22identifier%22%2C%22%22%5D&at=&azt=&cookiesDisabled=false&deviceinfo=%5Bnull%2Cnull%2Cnull%2C%5B%5D%2Cnull%2C%22EG%22%2Cnull%2Cnull%2C%5B%5D%2C%22GlifWebSignIn%22%2Cnull%2C%5Bnull%2Cnull%2C%5B%5D%5D%5D&gmscoreversion=undefined&checkConnection=youtube%3A1468%3A1&checkedDomains=youtube&pstMsg=1&");
@@ -42,11 +57,14 @@ class YouTubeAPI{
 		$headers[] = "Authority: accounts.google.com";
 		$headers[] = "Dnt: 1";
 		curl_setopt($this->ch, CURLOPT_HTTPHEADER, $headers);
-
 		$result = curl_exec($this->ch);
 		$result = str_replace(")]}'", "", $result);
-		return json_decode($result,true)[0][0][2];}
-	private function Glogin($G_identifier,$password){
+		return json_decode($result, true) [0][0][2];
+		}
+
+	private
+	function Glogin($G_identifier, $password)
+		{
 		curl_setopt($this->ch, CURLOPT_URL, "https://accounts.google.com/_/signin/sl/challenge?hl=en&_reqid=253136&rt=j");
 		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($this->ch, CURLOPT_POSTFIELDS, "continue=https%3A%2F%2Fwww.google.com%2F&hl=en&f.req=%5B%22$G_identifier%22%2Cnull%2C1%2Cnull%2C%5B1%2Cnull%2Cnull%2Cnull%2C%5B%22$password%22%2Cnull%2Ctrue%5D%5D%2C%5Bnull%2Cnull%2C%5B2%2C1%2Cnull%2C1%2C%22https%3A%2F%2Faccounts.google.com%2FAddSession%3Fhl%3Den%26continue%3Dhttps%253A%252F%252Fwww.google.com%252F%22%2Cnull%2C%5B%5D%2C4%2C%5B%5D%2C%22GlifWebSignIn%22%5D%2C1%2C%5Bnull%2Cnull%2C%5B%5D%5D%2Cnull%2Cnull%2Cnull%2Ctrue%5D%5D&bgRequest=%5B%22identifier%22%2C%22%22%5D&bghash=&at=&azt=&cookiesDisabled=false&deviceinfo=%5Bnull%2Cnull%2Cnull%2C%5B%5D%2Cnull%2C%22EG%22%2Cnull%2Cnull%2C%5B%5D%2C%22GlifWebSignIn%22%2Cnull%2C%5Bnull%2Cnull%2C%5B%5D%5D%5D&gmscoreversion=undefined&checkConnection=youtube%3A1468%3A1&checkedDomains=youtube&pstMsg=1&");
@@ -67,11 +85,17 @@ class YouTubeAPI{
 		$headers[] = "Dnt: 1";
 		curl_setopt($this->ch, CURLOPT_HTTPHEADER, $headers);
 		$result = curl_exec($this->ch);
-		if (strpos($result, 'CheckCookie') == false) {
- 			return "STOP_CODE";
+		if (strpos($result, 'CheckCookie') == false)
+			{
+			return "STOP_CODE";
+			}
+
+		return $result;
 		}
-		return $result;}
-	private function YTlogin(){
+
+	private
+	function YTlogin()
+		{
 		curl_setopt($this->ch, CURLOPT_URL, "https://accounts.google.com/ServiceLogin?passive=true&continue=https%3A%2F%2Fwww.youtube.com%2Fsignin%3Fapp%3Ddesktop%26next%3D%252F%26hl%3Den%26action_handle_signin%3Dtrue&hl=en&uilel=3&service=youtube");
 		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($this->ch, CURLOPT_ENCODING, 'gzip, deflate');
@@ -89,8 +113,11 @@ class YouTubeAPI{
 		$headers[] = "Authority: accounts.google.com";
 		$headers[] = "Dnt: 1";
 		curl_setopt($this->ch, CURLOPT_HTTPHEADER, $headers);
-		$result = curl_exec($this->ch);}
-	function Like($VIDEO_ID){
+		$result = curl_exec($this->ch);
+		}
+
+	function Like($VIDEO_ID)
+		{
 		curl_setopt($this->ch, CURLOPT_URL, "https://www.youtube.com/watch?v=$VIDEO_ID");
 		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, 1);
 		$headers = array();
@@ -123,8 +150,11 @@ class YouTubeAPI{
 		$headers[] = "Dnt: 1";
 		curl_setopt($this->ch, CURLOPT_HTTPHEADER, $headers);
 		$result = curl_exec($this->ch);
-		return $result;}
-	function Subscribe($CHANNEL_ID){
+		return $result;
+		}
+
+	function Subscribe($CHANNEL_ID)
+		{
 		curl_setopt($this->ch, CURLOPT_URL, "https://www.youtube.com/channel/$CHANNEL_ID");
 		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, 1);
 		$headers = array();
@@ -158,57 +188,64 @@ class YouTubeAPI{
 		curl_setopt($this->ch, CURLOPT_HTTPHEADER, $headers);
 		$result = curl_exec($this->ch);
 		return $result;
-	    
+		}
+
+	function clean()
+		{
+		curl_close($this->ch);
+		unlink($this->cookies);
+		}
 	}
-	function clean(){
-		curl_close ($this->ch);
-		unlink($this->cookies);}}
 
-
-
-function YouTubeProductionAPI($email,$password,$action,$id){
-
-	if ( !empty($action) and !empty($email) and !empty($password) and !empty($id)){
-		$api = new YouTubeAPI($email,$password);
-		if (strtolower($action) == "subscribe"){
+function YouTubeProductionAPI($email, $password, $action, $id)
+	{
+	if (!empty($action) and !empty($email) and !empty($password) and !empty($id))
+		{
+		$api = new YouTubeAPI($email, $password);
+		if (strtolower($action) == "subscribe")
+			{
 			$id = str_replace("https://www.youtube.com/channel/", "", $id);
-			if ($api->state() == "STOP_CODE"){
+			if ($api->state() == "STOP_CODE")
+				{
 				echo "NO_SESSION";
-			}else{
-			    
-			    $s = $api->Subscribe($id);
-			    #if (stripos($s, 'invalid') !== false) {
-    			#    for ($x = 0; $x <= 1; $x++) {
-                #        $s = $api->Subscribe($id);
-                #    } 
-			    #}
-			    echo $s;
-			    
-			    
-			    
+				}
+			  else
+				{
+				$s = $api->Subscribe($id);
 
+				// if (stripos($s, 'invalid') !== false) {
+				//    for ($x = 0; $x <= 1; $x++) {
+				//        $s = $api->Subscribe($id);
+				//    }
+				// }
+
+				echo $s;
+				}
 			}
-		}
-		if (strtolower($action) == "like"){
+
+		if (strtolower($action) == "like")
+			{
 			$id = str_replace("https://www.youtube.com/watch?v=", "", $id);
-			if ($api->state() == "STOP_CODE"){
+			if ($api->state() == "STOP_CODE")
+				{
 				echo "NO_SESSION";
-			}else{
-			    
-			  	$s = $api->Like($id);
-			    #if (stripos($s, 'invalid') !== false) {
-    			#    for ($x = 0; $x <= 1; $x++) {
-                #        $s = $api->Like($id);
-                #    } 
-			    #}
-			    echo $s;  
-			
-			    
+				}
+			  else
+				{
+				$s = $api->Like($id);
+
+				// if (stripos($s, 'invalid') !== false) {
+				//    for ($x = 0; $x <= 1; $x++) {
+				//        $s = $api->Like($id);
+				//    }
+				// }
+
+				echo $s;
+				}
 			}
-		}
+
 		$api->clean();
+		}
 	}
-}
 
 ?>
-
