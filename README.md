@@ -1,4 +1,4 @@
-# YoutubeAPI
+# YoutubeAPI (Deprecated)
 ```php
 <?php
 include 'YTApi.php';
